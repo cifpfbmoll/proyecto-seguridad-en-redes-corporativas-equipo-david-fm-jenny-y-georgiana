@@ -53,8 +53,93 @@ sudo nano /etc/modsecurity/modsecurity.conf
 *11-verificar protección* 
 sudo tail -f /var/log/apache2/error.log
 
+------------------Sprint4---------------
 
+0-Actualizar todos los paquetes:
+sudo apt update
 
+1-Instalar SSH:
+sudo apt install openssh-server
 
+2-Verificar que el servicio funciona correctamente:
+sudo systemctl status ssh
 
+ACTIVIDADES-->
+1-Autenticación SSH basada en clave pública:
+
+2-Añadir PubkeyAuthentication yes al archivo de configuración.
+
+3-Cambio de puerto por defecto:
+
+Añadir "Port 300" al archivo de configuración "sshd_config".
+
+4-Vinculación IP:
+
+poner como por ejemplo ListenAddress 192.168.1.117
+
+5-Deshabilitar el usuario ROOT para login:
+
+Añadir "PermitRootLogin no" al archivo de configuración.
+
+6-Limitar el acceso SSH de los usuarios del sistema:
+
+Añadir AllowUsers user1 user2 al archivo de configuración.
+un ejemplo mas vizual: AllowUsers gcretu cretu georgi.
+
+7-Deshabilitar inicio de sesión basado en contraseña:
+
+Añadir "PasswordAuthentication no" al archivo de configuración.
+
+8-Deshabilitar contraseñas vacías:
+
+Añadir "PermitEmptyPasswords no" al archivo de configuración.
+
+9-Limitar intentos de autenticación fallida:
+
+Añadir "MaxAuthTries 3" al archivo de configuración.
+
+10-Limitar conexiones simultáneas no autenticadas:
+
+Añadir "MaxStartups 3" al archivo de configuración.
+
+11-Habilitar un banner de advertencia para los usuarios de SSH:
+
+Añadir "Banner /etc/issue" al archivo de configuración.
+
+12-Configurar el intervalo de tiempo de espera de cierre de sesión inactiva:
+
+Añadir "ClientAliveCountMax 0" y "ClientAliveInterval 300" al archivo de configuración.
+
+13-Deshabilitar X11 forwarding:
+
+Añadir "X11Forwarding no" al archivo de configuración.
+
+14-Bloquear usuarios a sus directorios de inicio (Chroot):
+
+Crear el directorio jaula y configurar los permisos necesarios.
+
+15-Habilitar doble factor de autenticación en SSH:
+
+Instalar Google Authenticator:
+"sudo apt install libpam-google-authenticator"
+Configurar PAM: (añadir lo siguiente en la configuración pam)
+"auth required pam_google_authenticator.so"
+Reiniciar el servicio SSH:
+"sudo systemctl restart sshd.service"
+
+-Modificar lo siguiente de "sshd_config"
+ChallengeResponseAuthentication yes
+UsePAM yes
+PasswordAuthentication no
+
+-Poner en la termnal "google-authenticator"
+-Descargar la aplicacion de autentificar de google para así escanear el QR 
+-Responder a las preguntas de configuración de Google Authenticator:
+Make tokens time-based: yes
+Update the .google_authenticator file: yes
+Disallow multiple uses: yes
+Increase the original generation time limit: no
+Enable rate-limiting: yes
+
+(y sa tendria que funcionar.)
 
