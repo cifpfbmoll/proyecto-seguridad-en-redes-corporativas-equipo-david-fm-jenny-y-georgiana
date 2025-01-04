@@ -53,7 +53,7 @@ sudo nano /etc/modsecurity/modsecurity.conf
 *11-verificar protección* 
 sudo tail -f /var/log/apache2/error.log
 
-------------------Sprint4---------------
+------------------Script t4---------------
 
 0-Actualizar todos los paquetes:
 sudo apt update
