@@ -143,3 +143,36 @@ Enable rate-limiting: yes
 
 (y sa tendria que funcionar.)
 
+--------------------------------Sprint 5-------------------------------->
+1. Descargar Metasploitable2
+Conseguir la IPs de las maquinas en las que se quiere hacer los escaners
+
+-->Para hacer los escaners siguiente más practico (si hya que hacer esner a la dos maquinas virtuales ) hacerlo junto en un mismo comando poniendo las dos ips. (por ejemplo "ip1"-->Metasploitable2 y "ip2"--> Ubuntu server). 
+
+2. Escaneo SYN Scan
+   
+Comando:nmap -sS (ip1) (ip2)
+
+Descripción: Realiza un escaneo SYN, también conocido como "half-open" scan, que es más rápido y menos detectable, permitiendo identificar los principales servicios y puertos abiertos en las IPs especificadas.
+
+3. Escaneo de Puertos UDP
+Comando:nmap -sU (ip1) (ip2)
+
+Descripción: Realiza un escaneo de los principales puertos UDP abiertos en Metasploitable2 y Ubuntu Server, identificando servicios esenciales que utilizan el protocolo UDP.
+
+4. Escaneo con Script de Vulnerabilidades
+Comando:
+nmap --script vuln (ip1) (ip2)
+
+Descripción: Ejecuta el script vuln de Nmap, que detecta varias vulnerabilidades conocidas en los sistemas objetivo, proporcionando información sobre posibles puntos débiles.
+
+6. Escaneo Agresivo
+Comando:nmap -A (ip1) (ip2)
+
+Descripción: Realiza un escaneo agresivo que incluye detección del sistema operativo, versión del servicio, escaneo de scripts y traceroute, proporcionando una visión de los objetivos.
+
+6. Escaneo de Descubrimiento de Equipos en la Red Doméstica
+Comando: nmap -sn 192.168.1.0/24 (red local)
+
+Descripción: Realiza un escaneo de descubrimiento de equipos en la red local, identificando todos los dispositivos conectados sin realizar un escaneo de puertos completo.
+
