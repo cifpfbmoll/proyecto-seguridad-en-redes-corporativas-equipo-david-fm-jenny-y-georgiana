@@ -175,4 +175,104 @@ Descripción: Realiza un escaneo agresivo que incluye detección del sistema ope
 Comando: nmap -sn 192.168.1.0/24 (red local)
 
 Descripción: Realiza un escaneo de descubrimiento de equipos en la red local, identificando todos los dispositivos conectados sin realizar un escaneo de puertos completo.
+----------------------------------Script 6------------------------------------
+_______________________________________
+Como poner la reglas en cada caso-->
+_______________________________________
+1. Tener Internet desde el servidor
+Accede a la interfaz de pfSense.
+Ve a Firewall, Rules en DMZ, añadir-->
+Action: Pass
+Interface: DMZ
+Address Family: IPv4
+Protocol: Any
+Source: Network 10.0.3.0/24 (DMZ)
+Destination: Any
+
+(Guarda y aplica los cambios)
+
+2. Internet desde el equipo de los empleados
+Ve a Firewall, Rules en Pestaña LAN y añadir-->
+Action: Pass
+Interface: LAN 
+Address Family: IPv4
+Protocol: Any
+Source: LAN addresses
+Destination: Any
+
+(Guarda y aplica los cambios)
+
+4. Servidor web únicamente por el puerto 443 y redirigir tráfico del puerto 80 al 44 , (en reglas, la pestaña DMZ,añdir)
+
+Action: Pass
+Interface: DMZ
+Address Family: IPv4
+Protocol: TCP
+Source: Any
+Destination: Network 10.0.3.0/24 (DMZ)
+Destination Port Range: 443
+
+-->En Firewall en NAT-->Pestaña Port Forward, añadir
+
+Interface: WAN
+Protocol: TCP
+Destination Address: WAN Address
+Destination Port Range: 80
+Redirect Target IP: IP del servidor en DMZ
+Redirect Target Port: 443
+
+(Guarda y aplica los cambios)
+
+4. Hacer accesible el servidor SSH únicamente desde el puerto elegido en el sprint de Hardening SSH .
+En Firewall en Rules, pestaña DMZ.
+
+Haz clic en el botón Add para crear una nueva regla.
+
+Action: Pass
+Interface: DMZ
+Address Family: IPv4
+Protocol: TCP
+Source: Any
+Destination: DMZ subnets
+Destination Port Range: puerto 22 SSH
+
+(Guarda y aplica los cambios)
+
+5. Bloquear tráfico directo entre el servidor y los empleados (en ambos sentidos)
+Firewall -->Rules, pestaña DMZ, añadir
+
+Action: Block
+Interface: DMZ
+Address Family: IPv4
+Protocol: Any
+Source: Network 10.0.3.0/24 (DMZ)
+Destination:LAN subnets
+
+(Guarda la configuración)
+(Repite los pasos anteriores en la pestaña LAN (Empleados), invirtiendo las redes de origen y destino)
+
+6. regla que bloquee el tráfico en caso de ciberataque
+Firewall -> Rules, pestaña DMZ, en añadir
+
+Action: Block
+Interface: DMZ
+Address Family: IPv4
+Protocol: Any
+Source: DMZ subnets
+Destination: Any
+
+(Guarda)
+
+(Para deshabilitar la regla)
+
+7. Bloquear tráfico de IP específica en caso de ataque DoS
+Ve a Firewall > Rules, pestaña DMZ.
+
+Action: Block
+Interface: DMZ
+Address Family: IPv4
+Protocol: Any
+Source: IP atacante
+Destination: DMZ subnets
+(Guarda)
 
